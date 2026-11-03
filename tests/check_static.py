@@ -5,7 +5,7 @@ from html.parser import HTMLParser
 
 ROOT=Path(__file__).resolve().parents[1]
 text=(ROOT/'jahiz-studio.html').read_text()
-original=(ROOT/'index.html').read_text()
+original=(ROOT/'jahiz-original.html').read_text()
 class IDs(HTMLParser):
     def __init__(self): super().__init__(); self.ids=[]
     def handle_starttag(self,tag,attrs):
@@ -20,7 +20,7 @@ assert (ROOT/'studio/shell.js').read_text().strip()==re.search(r'<script id="stu
 assert (ROOT/'studio/review.css').read_text().strip()==re.search(r'<style id="studioReviewTheme">(.*?)</style>',text,re.S)[1].strip(), 'review.css inline mismatch'
 for source,script in [('mp3.js','studioMp3'),('mp4-chapters.js','studioMp4Chapters'),('review.js','studioReview')]:
     assert (ROOT/'studio'/source).read_text().strip()==re.search(r'<script id="'+script+r'">(.*?)</script>',text,re.S)[1].strip(), source+' inline mismatch'
-for name,expected in {'index.html':'2bc1e154834d1cef906807b11360489353f65e0f0c6b8a1cf70cd73849d6be4e','jahiz.html':'d7d23118f579df7585aee4128ea52dbfb0c20a9c7b11b528b395f2081a0a2b3e'}.items():
+for name,expected in {'jahiz-original.html':'2bc1e154834d1cef906807b11360489353f65e0f0c6b8a1cf70cd73849d6be4e','jahiz.html':'d7d23118f579df7585aee4128ea52dbfb0c20a9c7b11b528b395f2081a0a2b3e'}.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==expected, 'Original modified: '+name
 scratch=Path(os.environ.get('TMPDIR',str(Path.home()/'.hermes/cache/scratch')))/'jahiz-studio-syntax'
 scratch.mkdir(parents=True,exist_ok=True)
