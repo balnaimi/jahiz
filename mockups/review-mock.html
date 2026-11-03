@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>جاهز — مسودة المراجعة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root,:root[data-theme="dark"]{--bg:#101311;--panel:#1A1E1B;--card:#151916;--ink:#F2F4E9;--muted:#ABB3A9;--line:#343C34;--accent:#DFFF00;--accent-ink:#172000;--brand:#101311;--soft:#272F19;--warn:#FFB294;--blue:#3658F5;--tag-fix:#FFB294;--tag-idea:#8FA6FF;--tag-key:#DFFF00;color-scheme:dark}
+:root[data-theme="light"]{--bg:#F2F3EA;--panel:#FFFFFF;--card:#FAFBF5;--ink:#172018;--muted:#596453;--line:#CCD2C4;--accent:#365200;--accent-ink:#FFFFFF;--brand:#172018;--soft:#E8F2CF;--warn:#9D370B;--blue:#2949D7;--tag-fix:#9D370B;--tag-idea:#2949D7;--tag-key:#365200;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.55 "Tajawal",sans-serif;background:var(--bg);color:var(--ink)}
+button,input,textarea{font-family:inherit}
+.mono{font-family:"IBM Plex Mono",monospace;direction:ltr;font-variant-numeric:tabular-nums}
+.top{display:flex;justify-content:space-between;align-items:center;padding:20px 38px;background:var(--brand);border-bottom:1px solid var(--line);color:#F2F4E9}
+.brand{display:flex;gap:14px;align-items:center}.mark{width:42px;height:42px;background:#DFFF00;border-radius:3px;transform:rotate(-6deg)}
+.bname{font:800 32px/1 "Tajawal"}.theme{background:transparent;border:1px solid #4A5547;color:#F2F4E9;padding:10px 13px;border-radius:6px;cursor:pointer;min-height:44px}
+.side{display:flex;gap:8px;padding:16px 38px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tab{border:0;background:transparent;color:var(--muted);min-height:46px;border-radius:6px;padding:10px 22px;font-size:16px;flex-shrink:0;cursor:pointer}
+.tab.on{background:var(--accent);color:var(--accent-ink);font-weight:700}
+.tab .new{font-size:10px;background:var(--blue);color:#fff;border-radius:3px;padding:1px 5px;margin-inline-start:6px}
+.content{padding:28px 38px 40px;max-width:1600px;margin:auto}
+.head h1{font:800 34px/1.25 "Tajawal";margin:0}.head p{margin:6px 0 24px;color:var(--muted);font-size:14px}
+.bench{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:24px;align-items:start}
+.player{background:var(--panel);border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.screen{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#2a3a2c,#141a15 55%,#1d2630);display:grid;place-items:center;color:#cfd6c8}
+.screen .who{position:absolute;bottom:14px;right:16px;font-size:13px;background:#0009;padding:4px 10px;border-radius:4px}
+.screen .play{width:66px;height:66px;border-radius:50%;background:#0008;border:2px solid #fff6;display:grid;place-items:center;font-size:24px;cursor:pointer}
+.controls{padding:14px 16px 16px;display:grid;gap:10px}
+.timeline{position:relative;height:30px;cursor:pointer}
+.track{position:absolute;inset:13px 0;height:5px;background:var(--line);border-radius:3px}
+.fill{position:absolute;top:13px;right:0;height:5px;background:var(--accent);border-radius:3px}
+.pin{position:absolute;top:2px;width:4px;height:26px;border-radius:2px;transform:translateX(50%);cursor:pointer}
+.pin:hover{width:6px}
+.head-dot{position:absolute;top:8px;width:15px;height:15px;border-radius:50%;background:var(--accent);transform:translateX(50%);box-shadow:0 0 0 3px var(--panel)}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.time{font-size:13px;color:var(--muted)}
+.btn{min-height:44px;border-radius:5px;padding:10px 16px;font-size:14px;font-weight:700;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.blue{background:var(--blue);color:#fff;border-color:var(--blue)}
+.spacer{flex:1}
+.kbd{font-size:11px;border:1px solid var(--line);border-radius:3px;padding:1px 6px;color:var(--muted)}
+.add{border-top:1px solid var(--line);padding:16px;display:grid;gap:10px;background:var(--card)}
+.add .at{font-size:13px;color:var(--muted)}.add .at b{color:var(--accent)}
+.add textarea{width:100%;min-height:74px;resize:vertical;border:1px solid var(--line);border-radius:5px;background:var(--panel);color:var(--ink);padding:10px;font-size:15px}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tagb{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:4px;min-height:38px;padding:4px 12px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.tagb i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.tagb.on{border-color:var(--accent);background:var(--soft)}
+.notes{background:var(--panel);border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.nhead{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}
+.nhead b{font-size:16px}.nhead small{color:var(--muted);font-size:12px}
+.filter{display:flex;gap:6px;padding:12px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.filter input{flex:1;min-width:120px;min-height:40px;border:1px solid var(--line);border-radius:5px;background:var(--card);color:var(--ink);padding:0 10px;font-size:14px}
+.list{max-height:560px;overflow:auto}
+.note{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;padding:14px 18px;border-bottom:1px solid var(--line);cursor:pointer;border-inline-start:3px solid transparent}
+.note:hover{background:var(--card)}
+.note.cur{background:var(--soft);border-inline-start-color:var(--accent)}
+.note .t{grid-row:1/3;font-size:13px;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:3px 8px;height:fit-content;color:var(--ink)}
+.note.cur .t{border-color:var(--accent);color:var(--accent)}
+.note .tx{font-size:15px;line-height:1.6}
+.note .meta{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--muted)}
+.note .meta i{width:7px;height:7px;border-radius:50%;display:inline-block;margin-inline-end:4px}
+.note .meta button{background:none;border:0;color:var(--muted);font-size:12px;cursor:pointer;padding:4px 2px;min-height:30px}
+.note .meta button:hover{color:var(--ink)}
+.exp{padding:14px 18px;display:grid;gap:8px;background:var(--card)}
+.exp .row .btn{flex:1;font-size:13px;padding:8px 10px}
+.hint{font-size:12px;color:var(--muted);line-height:1.7;margin:0}
+.ribbon{margin-bottom:18px;padding:10px 14px;border:1px dashed var(--line);border-radius:6px;font-size:13px;color:var(--muted)}
+@media(max-width:1000px){.bench{grid-template-columns:1fr}.list{max-height:none}}
+@media(max-width:600px){.top{padding:16px}.bname{font-size:26px}.side{padding:12px 16px;gap:6px}.tab{flex:1 1 0;padding:10px 6px;font-size:13px}.tab .new{display:none}.content{padding:20px 16px 32px}.head h1{font-size:27px}.controls{padding:12px}.add{padding:12px}.nhead,.filter,.note,.exp{padding-inline:14px}.hide-m{display:none}}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="brand"><div class="mark"></div><div class="bname">جاهز</div></div>
+ <button class="theme" id="theme">الوضع الفاتح ◑</button>
+</header>
+<nav class="side">
+ <button class="tab">الصور</button><button class="tab">الصوت</button><button class="tab">الفيديو</button>
+ <button class="tab on">المراجعة<span class="new">جديد</span></button>
+</nav>
+<main class="content">
+ <div class="ribbon">مسودة شكل بس — الفيديو هنا صورة ثابتة. اضغط على أي ملاحظة أو على الخط الزمني عشان تشوف القفز.</div>
+ <div class="head"><h1>مراجعة المقطع</h1><p>شغّل المقطع، سجّل ملاحظتك على الثانية، وارجع لها بضغطة.</p></div>
+ <div class="bench">
+  <section class="player">
+   <div class="screen"><div class="play">▶</div><div class="who">لقاء-العميل-نهائي.mp4</div></div>
+   <div class="controls">
+    <div class="timeline" id="tl"><div class="track"></div><div class="fill" id="fill"></div><div class="head-dot" id="dot"></div></div>
+    <div class="row">
+     <button class="btn primary">▶ تشغيل</button>
+     <button class="btn hide-m">−5 ث</button><button class="btn hide-m">+5 ث</button>
+     <span class="time mono" id="clock">02:15 / 12:40</span>
+     <span class="spacer"></span>
+     <span class="hint hide-m">اضغط <span class="kbd mono">N</span> لملاحظة جديدة</span>
+    </div>
+   </div>
+   <div class="add">
+    <div class="at">ملاحظة عند <b class="mono" id="atTime">02:15</b> — الفيديو يوقف أول ما تبدأ تكتب</div>
+    <textarea placeholder="مثلاً: هنا قال إن التسليم يوم الخميس"></textarea>
+    <div class="row">
+     <div class="tags">
+      <button class="tagb on"><i style="background:var(--tag-key)"></i>مهم</button>
+      <button class="tagb"><i style="background:var(--tag-fix)"></i>تعديل</button>
+      <button class="tagb"><i style="background:var(--tag-idea)"></i>فكرة</button>
+     </div>
+     <span class="spacer"></span>
+     <button class="btn primary">حفظ الملاحظة</button>
+    </div>
+   </div>
+  </section>
+  <aside class="notes">
+   <div class="nhead"><b>الملاحظات</b><small id="count"></small></div>
+   <div class="filter"><input placeholder="دوّر في الملاحظات"></div>
+   <div class="list" id="list"></div>
+   <div class="exp">
+    <div class="row"><button class="btn">نسخ كفصول يوتيوب</button><button class="btn">تنزيل TXT</button><button class="btn blue">تنزيل PDF</button></div>
+    <p class="hint">الملاحظات تنحفظ على جهازك وترجع لما تفتح نفس المقطع.</p>
+   </div>
+  </aside>
+ </div>
+</main>
+<script>
+const total=760,tags={key:['مهم','var(--tag-key)'],fix:['تعديل','var(--tag-fix)'],idea:['فكرة','var(--tag-idea)']};
+const notes=[
+ [12,'key','بداية اللقاء — عرّف بنفسه وبالشركة'],
+ [95,'idea','قال إن الجمهور الأساسي من 25 لـ35 — نبني الإعلان على هالفئة'],
+ [135,'key','التسليم يوم الخميس الساعة 4'],
+ [248,'fix','يبي نغيّر اللون الأخضر في الشعار'],
+ [402,'fix','الصوت فيه صدى من هني لين 07:10 — ننظفه'],
+ [531,'idea','لقطة حلوة للكفر'],
+ [688,'key','الميزانية النهائية اتفقنا عليها'],
+];
+const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');
+let now=135;
+function render(){
+ const pct=now/total*100;
+ fill.style.width=pct+'%';dot.style.right=pct+'%';
+ clock.textContent=fmt(now)+' / '+fmt(total);atTime.textContent=fmt(now);
+ tl.querySelectorAll('.pin').forEach(p=>p.remove());
+ notes.forEach(([t,k])=>{const p=document.createElement('div');p.className='pin';p.style.right=(t/total*100)+'%';p.style.background=tags[k][1];p.title=fmt(t);p.onclick=e=>{e.stopPropagation();now=t;render()};tl.appendChild(p)});
+ const cur=notes.reduce((a,n)=>n[0]<=now?n:a,null);
+ list.innerHTML=notes.map(n=>`<div class="note${n===cur?' cur':''}" data-t="${n[0]}"><span class="t mono">${fmt(n[0])}</span><div class="tx">${n[2]}</div><div class="meta"><span><i style="background:${tags[n[1]][1]}"></i>${tags[n[1]][0]}</span><button>تعديل</button><button>حذف</button></div></div>`).join('');
+ list.querySelectorAll('.note').forEach(el=>el.onclick=()=>{now=+el.dataset.t;render()});
+ count.textContent=notes.length+' ملاحظات';
+}
+tl.onclick=e=>{const r=tl.getBoundingClientRect();now=Math.round((r.right-e.clientX)/r.width*total);render()};
+theme.onclick=()=>{const d=document.documentElement;d.dataset.theme=d.dataset.theme==='light'?'dark':'light';theme.textContent=d.dataset.theme==='light'?'الوضع الداكن ◐':'الوضع الفاتح ◑'};
+render();
+</script>
+</body>
+</html>

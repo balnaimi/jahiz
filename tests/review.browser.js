@@ -1,0 +1,26 @@
+window.__reviewTest={status:'running'};
+(()=>{try{
+ const R=window.JahizReview,ok=(v,m)=>{if(!v)throw new Error(m)};
+ ok(R.fmt(0)==='00:00'&&R.fmt(135.9)==='02:15'&&R.fmt(3725)==='1:02:05','Time format');
+ const n=(t,text,tag='key')=>({id:String(t),t,tag,text});
+ let c=R.chapters([n(4,'مقدمة'),n(95,'الجمهور\nسطر ثاني'),n(100,'قريب جداً'),n(135,'التسليم')],760);
+ ok(c.text==='00:00 مقدمة\n01:35 الجمهور\n02:15 التسليم','Chapters text: '+c.text);
+ ok(c.skipped===1&&!c.tooFew,'Chapters skip/too-few');
+ c=R.chapters([n(30,'أول'),n(60,'ثاني')],120);
+ ok(c.text.startsWith('00:00 البداية\n00:30 أول')&&c.count===3,'Missing 0:00 start is added');
+ ok(R.chapters([n(30,'أ')],35).tooFew&&R.chapters([n(30,'أ')],35).skipped===1,'Chapter too close to end is skipped');
+ const cl=R.clean([{t:5,text:'  ',tag:'key'},{t:-1,text:'x'},{t:9,text:'ب',tag:'bad'},{t:2,text:'أ',tag:'fix'},null]);
+ ok(cl.length===2&&cl[0].t===2&&cl[1].tag==='key','Clean drops invalid notes, sorts, fixes tags');
+ ok(R.clipKey({name:'a.mp4',size:10},12.6)==='a.mp4|10|13','Clip key');
+ window.__reviewTest={status:'passed'};
+}catch(e){window.__reviewTest={status:'failed',error:e.message}}})();
+(()=>{if(window.__reviewTest.status!=='passed')return;const c=window.JahizReview.count,W=['ملاحظة وحدة','ملاحظتين','ملاحظات','ملاحظة'];
+ const ok=c(1,W)==='ملاحظة وحدة'&&c(2,W)==='ملاحظتين'&&c(5,W)==='5 ملاحظات'&&c(11,W)==='11 ملاحظة'&&c(0,W)==='0 ملاحظة';
+ if(!ok)window.__reviewTest={status:'failed',error:'Arabic count'}})();
+(()=>{if(window.__reviewTest.status!=='passed')return;const n=window.JahizReview.norm;
+ if(!(n('لقطة حلوة للكفر').includes(n('الكفر').replace(/^ال/,''))&&n('إعلانٌ')==='اعلان'&&n('مكتبة')==='مكتبه'))window.__reviewTest={status:'failed',error:'Arabic search normalisation'}})();
+(()=>{if(window.__reviewTest.status!=='passed')return;const f=window.JahizReview.fileChapters,n=(t,text)=>({t,text,tag:'key'});
+ const a=f([n(30,'أول'),n(30.4,'مكرر'),n(90,'ثاني\nتفاصيل'),n(119.8,'آخر ثانية')],120);
+ const b=f([n(.2,'من البداية'),n(10,'بعدين')],60);
+ const ok=JSON.stringify(a)===JSON.stringify([{t:0,title:'البداية'},{t:30,title:'أول'},{t:90,title:'ثاني'}])&&b[0].t===0&&b[0].title==='من البداية'&&b.length===2&&f([n(3,'هوك')],60)[0].t===0;
+ if(!ok)window.__reviewTest={status:'failed',error:'MP4 chapter list '+JSON.stringify(a)}})();
